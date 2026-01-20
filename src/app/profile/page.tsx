@@ -1,10 +1,10 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { api } from '@/lib/api';
 import { 
   User, 
   Mail, 
@@ -31,7 +31,7 @@ export default function ProfilePage() {
   const { data: profile, isLoading } = useQuery({
     queryKey: ['profile'],
     queryFn: async () => {
-      const res = await axios.get('http://localhost:3004/users/profile', {
+      const res = await api.get('/users/profile', {
         headers: { Authorization: `Bearer ${token}` }
       });
       return res.data;
@@ -65,11 +65,7 @@ export default function ProfilePage() {
                       <Mail size={18} className="text-blue-500" />
                       {user.email}
                     </div>
-                    <div className="w-1.5 h-1.5 bg-neutral-300 rounded-full hidden md:block"></div>
-                    <div className="flex items-center gap-2">
-                      <Calendar size={18} className="text-purple-500" />
-                      На платформе с {new Date(user.createdAt).toLocaleDateString()}
-                    </div>
+                   
                   </div>
                 </div>
                 

@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { useRouter, useParams } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
+import { api } from '@/lib/api';
 import { 
   Upload, FileText, ImageIcon, Save, ArrowLeft, 
   Sparkles, ShieldCheck, Loader2, CheckCircle2 
@@ -43,7 +43,7 @@ export default function EditBookPage() {
   const { data: categories } = useQuery({
     queryKey: ['categories'],
     queryFn: async () => {
-      const res = await axios.get('http://localhost:3004/categories');
+      const res = await api.get('/categories');
       return res.data;
     },
   });
@@ -51,7 +51,7 @@ export default function EditBookPage() {
   const { data: book, isLoading: isBookLoading } = useQuery({
     queryKey: ['book', id],
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:3004/books/${id}`);
+      const res = await api.get(`/books/${id}`);
       return res.data;
     },
   });
@@ -80,7 +80,7 @@ export default function EditBookPage() {
       if (pdfFile) formData.append('pdf', pdfFile);
       if (coverFile) formData.append('cover', coverFile);
 
-      await axios.patch(`http://localhost:3004/books/${id}`, formData, {
+      await api.patch(`/books/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,

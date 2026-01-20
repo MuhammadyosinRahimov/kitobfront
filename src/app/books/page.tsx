@@ -2,11 +2,11 @@
 
 import { useState, Suspense, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { Search, SlidersHorizontal, BookOpen, Filter, X, Zap, Sparkles, TrendingUp, History } from 'lucide-react';
 import { BookCard } from '@/components/ui/BookCard';
 import { cn } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
+import { api } from '@/lib/api';
 
 const DIFFICULTIES = ['Beginner', 'Intermediate', 'Advanced'];
 
@@ -25,7 +25,7 @@ function CatalogContent() {
   const { data: books, isLoading: isBooksLoading } = useQuery({
     queryKey: ['books'],
     queryFn: async () => {
-      const res = await axios.get('http://localhost:3004/books');
+      const res = await api.get('/books');
       return res.data;
     },
   });
@@ -33,7 +33,7 @@ function CatalogContent() {
   const { data: categories } = useQuery({
     queryKey: ['categories'],
     queryFn: async () => {
-      const res = await axios.get('http://localhost:3004/categories');
+      const res = await api.get('/categories');
       return res.data;
     },
   });

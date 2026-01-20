@@ -3,9 +3,9 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
+import { api } from '@/lib/api';
 import { ArrowLeft, Upload, Loader2, CheckCircle2, FileText, Image as ImageIcon, Sparkles, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -36,7 +36,7 @@ export default function AddBookPage() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:3004/categories');
+        const response = await api.get('/categories');
         setCategories(response.data);
       } catch (error) {
         console.error('Failed to fetch categories');
@@ -66,7 +66,7 @@ export default function AddBookPage() {
     });
 
     try {
-      await axios.post('http://localhost:3004/books', formData, {
+      await api.post('/books', formData, {
         headers: { 
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`
@@ -131,7 +131,7 @@ export default function AddBookPage() {
                         const name = prompt('Название категории:');
                         if (name) {
                           try {
-                            const res = await axios.post('http://localhost:3004/categories', { name }, {
+                            const res = await api.post('/categories', { name }, {
                               headers: { Authorization: `Bearer ${token}` }
                             });
                             setCategories([...categories, res.data]);

@@ -93,7 +93,7 @@ export function Header() {
                     </div>
                     <div className="hidden sm:block text-left">
                        <p className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Researcher</p>
-                       <p className="text-xs font-black text-neutral-900">{user.username}</p>
+                       <p className="text-xs font-black text-neutral-900">{user.fullName}</p>
                     </div>
                     <ChevronDown size={14} className={cn("text-neutral-400 transition-transform duration-500", isProfileOpen && "rotate-180")} />
                   </button>

@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { 
   BookOpen, Search, GraduationCap, Atom, Laptop, 
   FlaskConical, ArrowRight, Star, TrendingUp, 
@@ -11,6 +10,7 @@ import {
 import { BookCard } from '@/components/ui/BookCard';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { api } from '@/lib/api';
 
 const iconMap: Record<string, any> = {
   'Физика': Atom,
@@ -29,7 +29,7 @@ export default function HomePage() {
   const { data: latestBooks, isLoading: isBooksLoading } = useQuery({
     queryKey: ['latest-books'],
     queryFn: async () => {
-      const res = await axios.get('http://localhost:3004/books');
+      const res = await api.get('/books');
       return res.data.slice(0, 4);
     },
   });
@@ -37,7 +37,7 @@ export default function HomePage() {
   const { data: categories, isLoading: isCatsLoading } = useQuery({
     queryKey: ['categories'],
     queryFn: async () => {
-      const res = await axios.get('http://localhost:3004/categories');
+      const res = await api.get('/categories');
       return res.data;
     },
   });

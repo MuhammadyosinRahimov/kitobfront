@@ -1,7 +1,6 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { useParams, useRouter } from 'next/navigation';
 import { 
   Download, BookOpen, Clock, FileText, 
@@ -13,6 +12,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
 import { cn } from '@/lib/utils';
+import { api, getAssetUrl } from '@/lib/api';
 
 export default function BookDetailsPage() {
   const { id } = useParams();
@@ -27,7 +27,7 @@ export default function BookDetailsPage() {
   const { data: book, isLoading } = useQuery({
     queryKey: ['book', id],
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:3004/books/${id}`);
+      const res = await api.get(`/books/${id}`);
       return res.data;
     },
   });
@@ -39,7 +39,7 @@ export default function BookDetailsPage() {
     }
     setIsLiking(true);
     try {
-      await axios.post('http://localhost:3004/favorites/toggle', { bookId: id }, {
+      await api.post('/favorites/toggle', { bookId: id }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setIsFavorite(!isFavorite);
@@ -80,7 +80,7 @@ export default function BookDetailsPage() {
   );
 
   const handleDownload = () => {
-    window.open(`http://localhost:3004${book.pdfUrl}`, '_blank');
+    window.open(getAssetUrl(book.pdfUrl) || '', '_blank');
   };
 
   return (
@@ -115,7 +115,7 @@ export default function BookDetailsPage() {
                 <div className="aspect-[3/4.2] bg-[#F8FAFF] rounded-[3rem] overflow-hidden mb-12 relative shadow-2xl group-hover:shadow-blue-500/20 transition-all duration-1000 border border-neutral-100/50">
                   {book.coverImageUrl ? (
                     <img 
-                      src={`http://localhost:3004${book.coverImageUrl}`} 
+                      src={getAssetUrl(book.coverImageUrl) || ''} 
                       alt={book.title} 
                       className="w-full h-full object-cover transition-transform duration-2000 group-hover:scale-110 group-hover:rotate-1" 
                     />

@@ -1,7 +1,6 @@
 'use client';
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
 import { useAuthStore } from '@/store/useAuthStore';
 import { 
   Plus, Book as BookIcon, Users, Download, 
@@ -12,6 +11,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
+import { api, getAssetUrl } from '@/lib/api';
 
 export default function AdminDashboard() {
   const { user, token } = useAuthStore();
@@ -28,14 +28,14 @@ export default function AdminDashboard() {
   const { data: books, isLoading } = useQuery({
     queryKey: ['admin-books'],
     queryFn: async () => {
-      const res = await axios.get('http://localhost:3004/books');
+      const res = await api.get('/books');
       return res.data;
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      await axios.delete(`http://localhost:3004/books/${id}`, {
+      await api.delete(`/books/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
     },
@@ -140,7 +140,7 @@ export default function AdminDashboard() {
                       <div className="flex items-center gap-5">
                         <div className="w-14 h-14 bg-neutral-100 rounded-xl overflow-hidden shadow-inner shrink-0 relative">
                           {book.coverImageUrl ? (
-                            <img src={`http://localhost:3004${book.coverImageUrl}`} className="w-full h-full object-cover" />
+                            <img src={getAssetUrl(book.coverImageUrl) || ''} className="w-full h-full object-cover" />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center text-neutral-300"><BookIcon size={20} /></div>
                           )}
@@ -188,7 +188,7 @@ export default function AdminDashboard() {
               <div key={book.id} className="p-6 space-y-4">
                 <div className="flex gap-4">
                    <div className="w-20 h-24 bg-neutral-100 rounded-2xl overflow-hidden shrink-0">
-                      {book.coverImageUrl && <img src={`http://localhost:3004${book.coverImageUrl}`} className="w-full h-full object-cover" />}
+                      {book.coverImageUrl && <img src={getAssetUrl(book.coverImageUrl) || ''} className="w-full h-full object-cover" />}
                    </div>
                    <div className="flex-1">
                       <h3 className="font-black text-neutral-900 line-clamp-2 leading-tight">{book.title}</h3>

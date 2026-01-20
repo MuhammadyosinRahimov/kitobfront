@@ -5,7 +5,7 @@ import { Download, Heart, BookOpen, MoveRight, Star, Sparkles } from 'lucide-rea
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
-import axios from 'axios';
+import { api, getAssetUrl } from '@/lib/api';
 
 interface Book {
   id: string;
@@ -31,7 +31,7 @@ export function BookCard({ book }: { book: Book }) {
     
     setIsLiking(true);
     try {
-      await axios.post('http://localhost:3004/favorites/toggle', { bookId: book.id }, {
+      await api.post('/favorites/toggle', { bookId: book.id }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setIsFavorite(!isFavorite);
@@ -51,7 +51,7 @@ export function BookCard({ book }: { book: Book }) {
         {/* Cover with Multi-stage Zoom */}
         {book.coverImageUrl ? (
           <img 
-            src={`http://localhost:3004${book.coverImageUrl}`} 
+            src={getAssetUrl(book.coverImageUrl) || ''} 
             alt={book.title} 
             className="w-full h-full object-cover transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-125 group-hover:rotate-2"
           />

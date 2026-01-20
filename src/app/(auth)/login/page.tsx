@@ -3,9 +3,9 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
+import { api } from '@/lib/api';
 import Link from 'next/link';
 import { Layout, Mail, Lock, Loader2, ArrowRight } from 'lucide-react';
 
@@ -23,7 +23,7 @@ export default function LoginPage() {
 
   const onSubmit = async (data: any) => {
     try {
-      const res = await axios.post('http://localhost:3004/auth/login', data);
+      const res = await api.post('/auth/login', data);
       setAuth(res.data.user, res.data.access_token);
       router.push('/');
     } catch (error) {
