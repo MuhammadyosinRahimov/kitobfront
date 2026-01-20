@@ -25,6 +25,8 @@ export default function LoginPage() {
     try {
       const res = await api.post('/auth/login', data);
       setAuth(res.data.user, res.data.access_token);
+      const token = res.data.access_token;
+      localStorage.setItem('access_token', token);
       router.push('/');
     } catch (error) {
       alert('Ошибка входа. Проверьте данные.');
