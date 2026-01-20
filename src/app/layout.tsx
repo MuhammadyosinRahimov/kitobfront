@@ -15,8 +15,30 @@ export const metadata: Metadata = {
   description: 'ScienceHub — премиальная образовательная платформа для доступа к научным книгам и публикациям. Более 20,000 материалов в высоком качестве.',
   keywords: ['наука', 'книги', 'образование', 'архив', 'библиотека', 'PDF', 'ScienceHub'],
   authors: [{ name: 'ScienceHub Team' }],
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
+  openGraph: {
+    title: 'ScienceHub | Мировой Архив Научных Знаний',
+    description: 'Доступ к элитным научным материалам в высоком качестве.',
+    url: 'https://science-hub.pro', // Replace with your actual domain
+    siteName: 'ScienceHub',
+    locale: 'ru_RU',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ScienceHub | Мировой Архив Научных Знаний',
+    description: 'Доступ к элитным научным материалам в высоком качестве.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  }
+};
+
+export const viewport = {
   themeColor: '#2563eb',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({
