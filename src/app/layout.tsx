@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
-    default: 'ScienceHub | Мировой Архив Научных Знаний',
+    default: 'prinsesa 💘 | Мировой Архив Научных Знаний ',
     template: '%s | ScienceHub'
   },
   description: 'ScienceHub — премиальная образовательная платформа для доступа к научным книгам и публикациям. Более 20,000 материалов в высоком качестве.',
@@ -31,7 +31,10 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-  }
+  },
+  verification: {
+    google: '9BmTnJBION408Qy39glI0S1qCAm8bOjCTbh9yKFMVzs',
+  },
 };
 
 export const viewport = {
